@@ -21,6 +21,15 @@ pipeline {
                 }
             }
         }
+
+        stage('Test') {
+            steps {
+                dir('selenium-tests') {
+                    bat "mvn test -DtestUrl=${params.testUrl} -Dbrowser=${params.browser} -DdriversPath=${params.driversPath}"
+                }
+            }
+        }
     }
 }
+
 
