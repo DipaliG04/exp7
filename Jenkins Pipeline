@@ -2,11 +2,15 @@ pipeline {
     agent any
 
     tools {
-        maven 'MAVEN'  // Ensure this matches the Maven name in Jenkins
+        maven 'MAVEN'  // Ensure this matches the Maven installation name in Jenkins
     }
 
     environment {
-        PATH = "${tool 'MAVEN'}/bin:${env.PATH}"
+        PATH = "${tool 'MAVEN'}/bin;${env.PATH}"
+    }
+
+    parameters {
+        string(name: 'driversPath', defaultValue: 'C:\\Users\\deepa\\Downloads\\PATH_TO_WEB_DRIVERS', description: 'Path to the browser drivers')
     }
 
     stages {
@@ -19,10 +23,9 @@ pipeline {
         stage('Build') {
             steps {
                 dir('selenium-tests') {
-                    sh 'mvn clean package -DdriversPath=${driversPath}'
+                    bat "mvn clean package -DdriversPath=%driversPath%"
                 }
             }
-        }
-    }
+        }
+    }
 }
-
