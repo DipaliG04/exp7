@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'testUrl', defaultValue: 'https://youtube.com', description: 'Enter the URL to test')
+        choice(name: 'browser', choices: ['chrome', 'firefox'], description: 'Select the browser for testing')
+        string(name: 'driversPath', defaultValue: 'C:\\Users\\PSYCHOPENGUIN\\Downloads\\drivers', description: 'Path to the browser drivers')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/DipaliG04/exp7.git'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                dir('selenium-tests') {
+                    bat 'mvn clean package -DdriversPath=%driversPath%'
+                }
+            }
+        }
+    }
+}
+
