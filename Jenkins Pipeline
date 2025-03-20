@@ -16,20 +16,14 @@ pipeline {
         
         stage('Build') {
             steps {
-                dir('selenium-tests') {
-                    bat 'mvn clean package -DdriversPath=%driversPath%'
-                }
+                bat 'mvn clean package -DdriversPath=%driversPath%'
             }
         }
 
         stage('Test') {
             steps {
-                dir('selenium-tests') {
-                    bat "mvn test -DtestUrl=${params.testUrl} -Dbrowser=${params.browser} -DdriversPath=${params.driversPath}"
-                }
+                bat "mvn test -DtestUrl=${params.testUrl} -Dbrowser=${params.browser} -DdriversPath=${params.driversPath}"
             }
         }
     }
 }
-
-
